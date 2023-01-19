@@ -25,6 +25,13 @@ class ConnectFour {
         this.colString = getColString();
     }
 
+    public ConnectFour(int m, int n, ArrayList<ArrayList<String>> board) {
+        this.name = "Connect Four";
+        this.m = m;
+        this.n = n;
+        this.board = board;
+    }
+
     public ArrayList<ArrayList<String>> getBoard(int m, int n) {
         ArrayList<ArrayList<String>> board = new ArrayList<ArrayList<String>>();
         for (int i = 0; i < m; i++) {
@@ -48,22 +55,26 @@ class ConnectFour {
     }
 
     public void viewBoard() {
-
-        String delimiter = "||";
-
-        for (ArrayList<String> row : this.board) {
-            String s = delimiter + String.join(delimiter, row) + delimiter;
-            System.out.println(s);
-        }
-        for (int i=0; i<this.n*3 + 2; i++) {
-            System.out.print("-");
-        }
-        System.out.print("\n");
-        System.out.println(this.colString);
-        
+        System.out.println(getBoard());
     }
 
     public String getBoard() {
+
+        String board = "";
+        String delimiter = "||";
+
+        for (ArrayList<String> row : this.board) {
+            board += delimiter + String.join(delimiter, row) + delimiter + "\n";
+        }
+        String divisor = "";
+        for (int i=0; i<this.n*3 + 2; i++) {
+            divisor += "-";
+        }
+        divisor += "\n" + this.colString + "\n";
+        return board + divisor;
+    }
+
+    public String getBoardHTML() {
 
         String delimiter = "||";
 
@@ -117,13 +128,15 @@ class ConnectFour {
         viewBoard();
     }
 
-    public boolean over() {
-        
-        if (checkRightDiagonals()) {
-            return true;
+    public String hasWinner() {
+        String winner = "";
+        winner = checkLeftDiagonals();
+        if (!winner.equals("")) {
+            return winner;
         }
-        if (checkLeftDiagonals()) {
-            return true;
+        winner = checkRightDiagonals();
+        if (!winner.equals("")) {
+            return winner;
         }
 
         for (ArrayList<String> row : this.board) {
@@ -141,7 +154,7 @@ class ConnectFour {
                         prev = pos;
                     }
                     if (c >= 4) {
-                        return true;
+                        return prev;
                     }
                 }
             }
@@ -163,15 +176,15 @@ class ConnectFour {
                         prev = pos;
                     }
                     if (c >= 4) {
-                        return true;
+                        return prev;
                     }
                 }
             }
         }
-        return false;
+        return "";
     }
 
-    public boolean checkRightDiagonals() {
+    public String checkRightDiagonals() {
         
         for (int k=0; k<this.m; k++) {
             int i=k;
@@ -192,7 +205,7 @@ class ConnectFour {
                         prev = pos;
                     }
                     if (c >= 4) {
-                        return true;
+                        return prev;
                     }
                 }
                 i++;
@@ -219,17 +232,17 @@ class ConnectFour {
                         prev = pos;
                     }
                     if (c >= 4) {
-                        return true;
+                        return prev;
                     }
                 }
                 i++;
                 j++;
             }
         }
-        return false;
+        return "";
     }
 
-    public boolean checkLeftDiagonals() {
+    public String checkLeftDiagonals() {
         
         for (int k=0; k<this.n; k++) {
             int i=0;
@@ -250,7 +263,7 @@ class ConnectFour {
                         prev = pos;
                     }
                     if (c >= 4) {
-                        return true;
+                        return prev;
                     }
                 }
                 i++;
@@ -277,14 +290,14 @@ class ConnectFour {
                         prev = pos;
                     }
                     if (c >= 4) {
-                        return true;
+                        return prev;
                     }
                 }
                 i++;
                 j--;
             }
         }
-        return false;
+        return "";
 
     }
 }

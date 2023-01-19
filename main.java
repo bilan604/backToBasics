@@ -4,12 +4,15 @@ import java.util.Scanner;
 class MyClass {
     public static void main(String args[]) {
         ConnectFour game = new ConnectFour();
-        boolean activePlayer = true;
         Scanner sc = new Scanner(System.in);
+        boolean activePlayer = true;
+        String winner = "";
+
         game.viewBoard();
-        while (!game.over()) {
+        while (winner.equals("")) {
             game.play(activePlayer, sc);
             activePlayer = !activePlayer;
+            winner = game.hasWinner();
         }
         System.out.println("Game Over!");
         sc.close();
