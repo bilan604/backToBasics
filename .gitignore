@@ -1,0 +1,6 @@
+# accidentally made my first .gitignore a .txt file
+.gitignore.txt
+
+# launch/debug settings for vscode
+*.json
+
