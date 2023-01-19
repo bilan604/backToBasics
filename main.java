@@ -7,7 +7,6 @@ class MyClass {
         boolean activePlayer = true;
         Scanner sc = new Scanner(System.in);
         game.viewBoard();
-        System.out.println(game.getBoard());
         while (!game.over()) {
             game.play(activePlayer, sc);
             activePlayer = !activePlayer;
