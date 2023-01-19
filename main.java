@@ -11,7 +11,7 @@ class MyClass {
             game.play(activePlayer, sc);
             activePlayer = !activePlayer;
         }
-        System.out.println("Game Over :(");
+        System.out.println("Game Over!");
         sc.close();
     }
 }
