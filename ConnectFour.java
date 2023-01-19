@@ -109,21 +109,71 @@ class ConnectFour {
         return false;
     }
 
-    public void play(boolean player, Scanner sc) {
+    public int dfs(ArrayList<ArrayList<String>> board, boolean player, int depth, int currCol) {
+        System.out.println(getBoard() + "  " + depth);
+
+        if (depth >= 3) {
+            return 0;
+        }
         String playerRepr = "X";
         if (!player) {
             playerRepr = "0";
         }
-
-        int col = 0;
-        System.out.println("Enter a column!");
-        col = sc.nextInt();
         
-        boolean validation = makeValidMove(playerRepr, col);
-        while (!validation) {
+        String winner = "";
+
+        
+        ConnectFour newGame = new ConnectFour(this.m, this.n, board);
+        boolean validation = newGame.makeValidMove(playerRepr, currCol);
+
+        winner = newGame.hasWinner();
+        if (!winner.equals("")) {
+            if (winner.equals(playerRepr)) {
+                return 1;
+            }
+            return -1;
+        }
+        int total = 0;
+        for (int col=0; col < this.n; col++) {
+            if (validation) {
+                ArrayList<ArrayList<String>> newBoard = (ArrayList<ArrayList<String>>) newGame.board.clone();
+                total += dfs(newBoard, !player, depth+1, col);   
+            }
+        }
+        return total;
+    }
+
+
+    public void play(boolean player, Scanner sc) {
+        int col = 0;
+        String playerRepr = "X";
+
+        if (!player) {
+            playerRepr = "0";
+            int value;
+            int maxValue = -10000;
+            int maxCol = 0;
+            for (int j=0; j< this.n; j++) {
+                ArrayList<ArrayList<String>> newBoard = (ArrayList<ArrayList<String>>)this.board.clone();
+                value = dfs(newBoard, player, 0, j);
+                if (value >= maxValue) {
+                    maxValue = value;
+                    maxCol = j;
+                }
+            }
+            boolean validation = makeValidMove(playerRepr, maxCol);
+            if (!validation) {
+                System.out.println("AI move column invalid");
+            }
+        } else {
             System.out.println("Enter a column!");
             col = sc.nextInt();
-            validation = makeValidMove(playerRepr, col);
+            boolean validation = makeValidMove(playerRepr, col);
+            while (!validation) {
+                System.out.println("Enter a column!");
+                col = sc.nextInt();
+                validation = makeValidMove(playerRepr, col);
+            }
         }
         viewBoard();
     }
