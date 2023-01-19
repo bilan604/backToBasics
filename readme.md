@@ -1,4 +1,4 @@
-Literally just Connect-4.
+Basic Connect-4.
 
 Created to:
 1. Practice git bash commands and version control.
